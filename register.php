@@ -35,8 +35,14 @@
       $error = true;
     }
 
+    //Verification if exists
+    if(mysqli_query($id, "SELECT EXISTS(SELECT * FROM users WHERE `username` = '$username')")){
+      $username_err = "Nom d'utilisateur déjà existant";
+      $error = true;
+    }
+
     if(!$error) {
-      //$sqlQuery = mysqli_query("INSERT * FROM users WHERE username='$username' AND password='$password");
+      $insert = mysqli_query($id, "INSERT INTO users (`username`, `password`) VALUES ('$username', '$password')");
       session_start();
       $_SESSION['username'] = $_POST['username'];
       header('location:account.php');

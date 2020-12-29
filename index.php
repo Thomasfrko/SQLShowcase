@@ -1,8 +1,3 @@
-<?php 
-session_start();
-var_dump($_SESSION['username']);
-if(!isset($_SESSION['username'])):
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,87 +5,34 @@ if(!isset($_SESSION['username'])):
     <title>Bmazon</title>
     </head>
     <body>
-    <nav>
-      <ul class="nav_links">
-        <li><a href="index.php"><img src="./logo.svg" alt="logo" width="30rem" height="30rem"></img>Bmazon</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="register.php">Créez un compte</a></li>
-      </ul>
-    </nav>
-
-    <div class="articles-container">
-      <div class="article" id="0">
-        <img src="./images/robotapsi.jpg" alt="Robot aspirateur" width="250px" height="250px">
-        <h2 class="title" id="0">Robot Aspirateur</h2>
-        <p class="description" id="0">Robot aspirateur connecté grâce à la toute nouvelle application iVacc<br>
-          Absorbe même les poils d'animaux <br>
-          Routes et horraires programmables
-        </p>
-        <p class="price" id="0">299,99 €</p>
-      </div>
-
-      <div class="article" id="1">
-        <img src="./images/oculus.jpg" alt="Oculus Quest 2" width="250px" height="250px">
-        <h2 class="title" id="1">Oculus Quest 2</h2>
-        <p class="description" id="1"> Casque Vr indépendant <br>
-          Stockage: 64 Go<br>
-          Autonomie: 6h
-          Vivez des expériences défiant les limites du réel.
-        </p>
-        <p class="price" id="1">449,99€</p>
-      </div>
-
-      <div class="article" id="2">
-        <img src="" alt="">
-        <h2 class="title" id="0"></h2>
-        <p class="description" id="0"></p>
-        <p class="price" id="0"></p>
-      </div>
-
-      <div class="article" id="3">
-        <img src="" alt="">
-        <h2 class="title" id="0"></h2>
-        <p class="description" id="0"></p>
-        <p class="price" id="0"></p>
-      </div>
-
-      <div class="article" id="4">
-        <img src="" alt="">
-        <h2 class="title" id="0"></h2>
-        <p class="description" id="0"></p>
-        <p class="price" id="0"></p>
-      </div>
-
-      <div class="article" id="5">
-        <img src="" alt="">
-        <h2 class="title" id="0"></h2>
-        <p class="description" id="0"></p>
-        <p class="price" id="0"></p>
-      </div>
-    </div>
-  </body>
-</html>
+<?php 
+session_start();
+if(!isset($_SESSION['username'])):
+?>
+  <nav>
+    <ul class="nav_links">
+      <li><a href="index.php"><img src="./logo.svg" alt="logo" width="30rem" height="30rem"></img>Bmazon</a></li>
+      <li><a href="login.php">Login</a></li>
+      <li><a href="register.php">Créez un compte</a></li>
+    </ul>
+  </nav>
 
 <?php
 else:
 ?>
+  <nav>
+    <ul class="nav_links">
+      <li><a href="index.php"><img src="./logo.svg" alt="logo" width="30rem" height="30rem"></img>Bmazon</a></li>
+      <li><a href="account.php">Mon compte</a></li>
+      <li><a href="deconnect.php">Déconnexion</a></li>
+    </ul>
+  </nav>
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <title>Bmazon</title>
-    </head>
-    <body>
-    <nav>
-      <ul class="nav_links">
-        <li><a href="index.php"><img src="./logo.svg" alt="logo" width="30rem" height="30rem"></img>Bmazon</a></li>
-        <li><a href="account.php">Mon compte</a></li>
-        <li><a href="account.php">Déconnexion</a></li>
-      </ul>
-    </nav>
+<?php
+endif;
+?>
 
-    <div class="articles-container">
+<div class="articles-container">
       <div class="article" id="0">
         <img src="./images/robotapsi.jpg" alt="Robot aspirateur" width="250px" height="250px">
         <h2 class="title" id="0">Robot Aspirateur</h2>
@@ -142,10 +84,6 @@ else:
     </div>
   </body>
 </html>
-
-<?php
-endif;
-?>
 
 <style>
 :root {

@@ -16,7 +16,7 @@ if(isset($_SESSION['username'])):
     <ul class="nav_links">
       <li><a href="index.php"><img src="./logo.svg" alt="logo" width="30rem" height="30rem"></img>Bmazon</a></li>
       <li><a href="account.php">Mon compte</a></li>
-      <li><a href="account.php">Déconnexion</a></li>
+      <li><a href="deconnect.php">Déconnexion</a></li>
     </ul>
   </nav>
 
