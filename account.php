@@ -1,7 +1,11 @@
 <?php
+require_once "config.php";
 session_start();
 
 if(isset($_SESSION['username'])):
+  $username = $_SESSION['username'];
+  $dataAddr = mysqli_fetch_array(mysqli_query($id, "SELECT * FROM adresse WHERE username = '$username'"));
+  $dataBank = mysqli_fetch_array(mysqli_query($id, "SELECT * FROM bankinfo WHERE owner = '$username'"));
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +24,49 @@ if(isset($_SESSION['username'])):
     </ul>
   </nav>
 
-  <h1> Bienvenue <?php echo $_SESSION['username'] ?></h1>
+  <h2> Bienvenue <?php echo $_SESSION['username'] ?> !</h2>
+
+  <main>
+    <div class="adresseLivraison">
+      <h4> Adresse de livraison </h4>
+      Mr.<input type="radio" id="Mr." name="genre" value="Mr."></input>
+      M.<input type="radio" id="M." name="genre" value="M."></input>
+      <label for="prénom">Prénom: </label>
+      <input type="text" placeholder="Prénom" name="prénom" value="<?php echo $dataAddr[7] ?>"></input>
+      <label for="nom">Nom: </label>
+      <input type="text" placeholder="Nom" name="nom" value="<?php echo $dataAddr[6] ?>"></input>
+      <label for="adresse">Adresse: </label>
+      <input type="text" placeholder="Adresse" name="adresse" value="<?php echo $dataAddr[5] ?>"></input>
+      <label for="ville">Ville: </label>
+      <input type="text" placeholder="Ville" name="ville" value="<?php echo $dataAddr[2] ?>"></input>
+      <label for="postal">Code postal: </label>
+      <input type="text" placeholder="Code Postal" name="postal" value="<?php echo $dataAddr[4] ?>"></input>
+    </div>
+    <div class="adresseFacture">
+      <h4> Adresse de facturation </h4>
+      Mr.<input type="radio" id="Mr." name="genre" value="Mr."></input>
+      M.<input type="radio" id="M." name="genre" value="M."></input>
+      <label for="prénom">Prénom: </label>
+      <input type="text" placeholder="Prénom" name="prénom" value="<?php echo $dataAddr[7] ?>"></input>
+      <label for="nom">Nom: </label>
+      <input type="text" placeholder="Nom" name="nom" value="<?php echo $dataAddr[6] ?>"></input>
+      <label for="adresse">Adresse: </label>
+      <input type="text" placeholder="Adresse" name="adresse" value="<?php echo $dataAddr[5] ?>"></input>
+      <label for="ville">Ville: </label>
+      <input type="text" placeholder="Ville" name="ville" value="<?php echo $dataAddr[2] ?>"></input>
+      <label for="postal">Code postal: </label>
+      <input type="text" placeholder="Code Postal" name="postal" value="<?php echo $dataAddr[4] ?>"></input>
+    </div>
+    <div class="bank">
+      <h4> Ajouter une carte bancaire </h4>
+      <label for="cardnumber">N° de carte bancaire: </label>
+      <input type="text" placeholder="XXXX-XXXX-XXXX-XXXX" name="cardnumber" value="<?php echo $dataBank[2] ?>"></input>
+      <label for="date">Date d'expiration: </label>
+      <input type="text" placeholder="01/21" name="date" value="<?php echo $dataBank[3] ?>"></input>
+      <label for="secret">Code secret: </label>
+      <input type="password" placeholder="XXX" name="secret" value="<?php echo $dataBank[4] ?>"></input>
+    </div>
+  </main>
 </body>
 </html>
 
