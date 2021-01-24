@@ -7,7 +7,15 @@
     <body>
 <?php 
 session_start();
+require_once "config.php";
+include "sec.php";
+
+$articleRobot = mysqli_fetch_array(mysqli_query($id, "SELECT * FROM articles WHERE id='1'"));
+$articleOculus = mysqli_fetch_array(mysqli_query($id, "SELECT * FROM articles WHERE id='2'"));
+$commentaireRobot = mysqli_query($id, "SELECT * FROM comments WHERE article_name='Robot Aspirateur'");
+$commentaireOculus = mysqli_query($id, "SELECT * FROM comments WHERE article_name='Oculus Quest 2'");
 if(!isset($_SESSION['username'])):
+
 ?>
   <nav>
     <ul class="nav_links">
@@ -34,56 +42,66 @@ endif;
 
 <div class="articles-container">
       <div class="article" id="0">
-        <img src="./images/robotapsi.jpg" alt="Robot aspirateur" width="250px" height="250px">
-        <h2 class="title" id="0">Robot Aspirateur</h2>
-        <p class="description" id="0">Robot aspirateur connecté grâce à la toute nouvelle application iVacc<br>
-          Absorbe même les poils d'animaux <br>
-          Routes et horraires programmables
-        </p>
-        <p class="price" id="0">299,99 €</p>
+        <button onclick='display(0)'> <img src="<?php echo $articleRobot[2]; ?>" alt="Robot aspirateur" width="250px" height="250px"></button>
+        <h2 class="title" id="0"><?php echo $articleRobot[1]; ?></h2>
+        <p class="description" id="0"><?php echo $articleRobot[3]; ?></p>
+        <p class="price" id="0"><?php echo $articleRobot[4]; ?></p>
+        <div class="commentaire" id="comment0">
+        <?php
+        while($row = mysqli_fetch_array($commentaireRobot)){
+          if($_COOKIE['checkBox'] == 'true') { // SECURITY CODE ENABLED (htmlspecialchars)
+            echo "<p id='comments[]' name='comments[]' class='posted'> " . htmlspecialchars($row[2]) . "</p>";
+          } else { // SECURITY CODE NOT ENABLED
+            echo "<p id='comments[]' name='comments[]' class='posted'>$row[2]</p>";
+          }
+          echo "--------------------------------";
+        }
+        ?>
+          <form method="POST" action='actionCom.php'>
+          <input type="text" name="comment0" placeholder="Commentaire...."></input>
+          <input type="submit" value='Envoyer'></input>
+          </form>
+        </div>
       </div>
 
       <div class="article" id="1">
-        <img src="./images/oculus.jpg" alt="Oculus Quest 2" width="250px" height="250px">
-        <h2 class="title" id="1">Oculus Quest 2</h2>
-        <p class="description" id="1"> Casque Vr indépendant <br>
-          Stockage: 64 Go<br>
-          Autonomie: 6h
-          Vivez des expériences défiant les limites du réel.
-        </p>
-        <p class="price" id="1">449,99€</p>
-      </div>
-
-      <div class="article" id="2">
-        <img src="" alt="">
-        <h2 class="title" id="0"></h2>
-        <p class="description" id="0"></p>
-        <p class="price" id="0"></p>
-      </div>
-
-      <div class="article" id="3">
-        <img src="" alt="">
-        <h2 class="title" id="0"></h2>
-        <p class="description" id="0"></p>
-        <p class="price" id="0"></p>
-      </div>
-
-      <div class="article" id="4">
-        <img src="" alt="">
-        <h2 class="title" id="0"></h2>
-        <p class="description" id="0"></p>
-        <p class="price" id="0"></p>
-      </div>
-
-      <div class="article" id="5">
-        <img src="" alt="">
-        <h2 class="title" id="0"></h2>
-        <p class="description" id="0"></p>
-        <p class="price" id="0"></p>
+        <button onclick='display(1)'><img src="<?php echo $articleOculus[2]; ?>" alt="Oculus Quest 2" width="250px" height="250px"></button>
+        <h2 class="title" id="1"><?php echo $articleOculus[1]; ?></h2>
+        <p class="description" id="1"> <?php echo $articleOculus[3]; ?></p>
+        <p class="price" id="1"><?php echo $articleOculus[4]; ?></p>
+        <div class="commentaire" id="comment1">
+        <?php while($row = mysqli_fetch_array($commentaireOculus)){
+          if($_COOKIE['checkBox'] == 'true') { // SECURITY CODE ENABLED (htmlspecialchars)
+            echo "<p id='comments[]' name='comments[]' class='posted'> " . htmlspecialchars($row[2]) . "</p>";
+          } else { // SECURITY CODE NOT ENABLED
+            echo "<p id='comments[]' name='comments[]' class='posted'>$row[2]</p>";
+          }
+          echo "--------------------------------";
+        }
+        ?>
+          <form method="POST" action='actionCom.php'>
+            <input type="text" name="comment1" placeholder="Commentaire...."></input>
+            <input type="submit" value='Envoyer'></input>
+          </form>
+        </div>
       </div>
     </div>
+
+    <script>
+    function display(idArticle) {
+      var x = document.querySelector('#comment'+idArticle)
+
+      if(x.style.display === 'none') {
+        x.style.display = 'block'
+      } else {
+        x.style.display = 'none'
+      }
+    }
+  </script>
   </body>
 </html>
+
+
 
 <style>
 :root {
@@ -103,6 +121,11 @@ endif;
 li, a, button {
   color: white;
   text-decoration: none;
+  border: none;
+}
+
+button {
+  cursor: pointer;
 }
 
 nav {
@@ -150,12 +173,12 @@ body::-webkit-scrollbar-thumb{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  border: solid red 2px;
-  margin-left: 2rem;
-  margin-right: 2rem;
   margin-top: 1rem;
+  margin-left:15rem;
+  margin-right:15rem;
+
 }
 
 .description, .price, h2 {
@@ -170,5 +193,53 @@ body::-webkit-scrollbar-thumb{
 
 .price {
   font-weight: bold;
+}
+
+.commentaire {
+  max-width: 250px;
+  z-index: 15;
+  display: none;
+}
+
+.commentaire a {
+  color: black;
+}
+
+input[type='text'] {
+  background-color: white;
+  display: inline-block;
+  text-align: center;
+  border: 2px solid grey;
+  padding: 1px 0px;
+  outline: none;
+  color: black;
+  border-radius: 24px;
+  transition: 0.25s;
+}
+
+input[type='text']:hover {
+  border-color: black;
+}
+
+input[type='submit'] {
+  background-color: darkgrey;
+  display: inline-block;
+  text-align: center;
+  border: 2px solid black;
+  padding: 1px 15px;
+  outline: none;
+  color: black;
+  border-radius: 24px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+input[type ='submit']:hover{
+  background-color: white;
+}
+.posted {
+  text-align: center;
+  white-space: wrap;
+  font-size: 0.8rem;
 }
 </style>

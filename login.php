@@ -1,12 +1,18 @@
 <!-- SQL Injection: valentin37' OR true--' -->
 <?php
   require_once "config.php";
+  include "sec.php";
   $login_err = "";
   if(isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    if($_COOKIE['checkBox'] == 'true') { // SECURITY CODE ENABLED (mysqli_real_escape_string)
+      $username =  mysqli_real_escape_string($id, $_POST['username']);
+      $password =  mysqli_real_escape_string($id, $_POST['password']);
+    } else { // SECURITY CODE NOT ENABLED
+      $username = $_POST['username'];
+      $password = $_POST['password'];
+    }
+    
     $test = mysqli_query($id, "SELECT * FROM users WHERE username='$username' AND password='$password'");
-    //echo "SELECT * FROM users WHERE username='$username' AND password='$password'";
     if($test != false){
       if($test->num_rows != 0) {
         session_start();
@@ -33,11 +39,11 @@
     <nav>
       <ul class="nav_links">
         <li><a href="index.php"><img src="./logo.svg" alt="logo" width="30rem" height="30rem"></img>Bmazon</a></li>
-        <li><a href="login.html">Login</a></li>
+        <li><a href="login.php">Login</a></li>
         <li><a href="register.php">Créez un compte</a></li>
       </ul>
     </nav>
-    <form class="login-box" method="POST" action="<?php echo /*htmlspecialchars($_SERVER["PHP_SELF"])*/ $_SERVER["PHP_SELF"];?>" >
+    <form class="login-box" method="POST" action="<?php $_SERVER["PHP_SELF"];?>" >
       <h1>Login</h1>
       <input type="text" name="username" placeholder="Username">
       <input type="password" name="password" placeholder="Password">

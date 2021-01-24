@@ -1,5 +1,6 @@
 <?php
 require_once "config.php";
+include "sec.php";
 session_start();
 
 if(isset($_SESSION['username'])):

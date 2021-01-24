@@ -1,5 +1,6 @@
 <?php
   require_once "config.php";
+  include "sec.php";
 
   $username = $password = $confirm_password = "";
   $username_err = $password_err = $confirm_password_err = "";
@@ -47,62 +48,6 @@
       $_SESSION['username'] = $_POST['username'];
       header('location:account.php');
     }
-    
-    /*else {
-
-      if($stmt = mysqli_prepare($link, $sql)){
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "s", $param_username);
-        
-        // Set parameters
-        $param_username = trim($_POST["username"]);
-        
-        // Attempt to execute the prepared statement
-        if(mysqli_stmt_execute($stmt)){
-            mysqli_stmt_store_result($stmt);
-            
-            if(mysqli_stmt_num_rows($stmt) == 1){
-                $username_err = "This username is already taken.";
-            } else{
-                $username = trim($_POST["username"]);
-            }
-        } else{
-            echo "Oops! Something went wrong. Please try again later.";
-        }
-
-        // Close statement
-        mysqli_stmt_close($stmt);
-      }
-    }
-
-    // Check input errors before inserting in database
-     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){     
-      // Prepare an insert statement
-      $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-          
-      if($stmt = mysqli_prepare($link, $sql)){
-          // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-          
-          // Set parameters
-          $param_username = $username;
-          $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-          
-          // Attempt to execute the prepared statement
-          if(mysqli_stmt_execute($stmt)){
-              // Redirect to login page
-              header("location: login.php");
-          } else{
-              echo "Something went wrong. Please try again later.";
-          }
-
-          // Close statement
-          mysqli_stmt_close($stmt);
-      }
-    }
-
-    // Close connection
-    mysqli_close($link);*/
   }
 ?>
 
@@ -116,7 +61,7 @@
   <nav>
     <ul class="nav_links">
       <li><a href="index.php"><img src="./logo.svg" alt="logo" width="30rem" height="30rem"></img>Bmazon</a></li>
-      <li><a href="login.html">Login</a></li>
+      <li><a href="login.php">Login</a></li>
       <li><a href="register.php">Créez un compte</a></li>
     </ul>
   </nav>
